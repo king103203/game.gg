@@ -1,24 +1,12 @@
 const SET_USERINFO = "SET_USERINFO";
 
-export const setUserInfo = (accountId, id, name, profileIconId, puuid, revisionDate, summonerLevel) => ({
+export const setUserInfo = (user) => ({
     type: SET_USERINFO,
-    accountId,
-    id,
-    name,
-    profileIconId,
-    puuid,
-    revisionDate,
-    summonerLevel
+    user
 })
 
 const userInitState = {
-    accountId: "",
-    id: "",
-    name: "",
-    profileIconId: 0,
-    puuid: "",
-    revisionDate: 0,
-    summonerLevel: 0
+    user: {}
 }
 
 export default function user(state = userInitState, action) {
@@ -26,13 +14,7 @@ export default function user(state = userInitState, action) {
         case SET_USERINFO:
             return {
                 ...state,
-                accountId: action.accountId,
-                id: action.id,
-                name: action.name,
-                profileIconId: action.profileIconId,
-                puuid: action.puuid,
-                revisionDate: action.revisionDate,
-                summonerLevel: action.summonerLevel
+                user: action.user
             };
         default:
             return state;
