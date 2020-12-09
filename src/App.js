@@ -1,22 +1,47 @@
 import './App.css';
-import * as lolAPI from './services/lolAPI';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios';
+import apiKey from './apiKey.json';
+import lolAPI from './lolAPI.json';
+import * as user_actions from './modules/user'
+import * as record_actions from './modules/record'
 
 function App() {
 
   const [SummonerName, setSummonerName] = useState('');
+  const [Matchlist, setMatchlist] = useState('');
+
+  const dispatch = useDispatch()
+  const State = useSelector(state => state)
 
   const setSummonerNameState = (e) => {
     setSummonerName(e.target.value);
   }
 
-  const dispatch = useDispatch()
-
-  const userdata = useSelector(state => state.user)
-
-  const inputUserData = () => {
-    lolAPI.getSummonerInfo(SummonerName, dispatch)
+  const getSummonerData = () => {
+    axios.get(lolAPI.summoner + SummonerName, { params: apiKey }).then(
+      (userData) => {
+        dispatch(user_actions.setUserInfo(userData.data))
+        axios.get(lolAPI.matchlist + userData.data.accountId, {
+          params: {
+            "beginIndex": 0,
+            "endIndex": 10,
+            "api_key": apiKey.api_key
+          }
+        }).then(
+          (matchlistData) => {
+            matchlistData.data.matches.forEach((matches) => {
+              axios.get(lolAPI.matches + matches.gameId, { params: apiKey }).then(
+                (matchesData) => {
+                  dispatch(record_actions.inputMatches(matchesData.data))
+                }
+              )
+            })
+          }
+        )
+      }
+    )
   }
 
   return (
@@ -24,13 +49,16 @@ function App() {
       <input type="text" onChange={setSummonerNameState} />
       <button onClick={(e) => {
         e.preventDefault()
-        inputUserData()
+        getSummonerData()
       }}>받기</button>
 
       <button onClick={(e) => {
         e.preventDefault()
-        console.log(userdata)
+        console.log(State)
       }}>확인</button>
+      <ul>
+        {Matchlist}
+      </ul>
     </div >
   );
 }
