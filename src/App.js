@@ -6,17 +6,22 @@ import apiKey from './apiKey.json';
 import lolAPI from './lolAPI.json';
 import * as user_actions from './modules/user'
 import * as record_actions from './modules/record'
+import GameboxTemplate from './component/gameboxTemplate'
 
 function App() {
 
-  const [SummonerName, setSummonerName] = useState('');
-  const [Matchlist, setMatchlist] = useState('');
+  const [SummonerName, setSummonerName] = useState('')
+  const [MatchList, setMatchList] = useState('')
 
   const dispatch = useDispatch()
   const State = useSelector(state => state)
 
   const setSummonerNameState = (e) => {
-    setSummonerName(e.target.value);
+    setSummonerName(e.target.value)
+  }
+
+  const setMatchListState = () => {
+    setMatchList(State.record.matches)
   }
 
   const getSummonerData = () => {
@@ -26,7 +31,7 @@ function App() {
         axios.get(lolAPI.matchlist + userData.data.accountId, {
           params: {
             "beginIndex": 0,
-            "endIndex": 10,
+            "endIndex": 2,
             "api_key": apiKey.api_key
           }
         }).then(
@@ -54,11 +59,10 @@ function App() {
 
       <button onClick={(e) => {
         e.preventDefault()
-        console.log(State)
+        setMatchListState()
       }}>확인</button>
-      <ul>
-        {Matchlist}
-      </ul>
+
+      <GameboxTemplate matchlist={MatchList} />
     </div >
   );
 }
