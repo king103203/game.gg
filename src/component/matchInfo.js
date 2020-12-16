@@ -1,6 +1,6 @@
 import React from 'react';
 
-function MatchInfo({ queueType, isWin, creation, duraition }) {
+function MatchInfo({ queueId, isWin, creation, duraition }) {
 
     // 승패 여부
     let txt_isWin = '패배'
@@ -26,7 +26,7 @@ function MatchInfo({ queueType, isWin, creation, duraition }) {
 
     // 큐타입 구하기
     let txt_queueType = ''
-    switch (queueType) {
+    switch (queueId) {
         case 420:
             txt_queueType = '솔로랭크'
             break
@@ -46,10 +46,15 @@ function MatchInfo({ queueType, isWin, creation, duraition }) {
 
     return (
         <div className='matchInfo'>
-            <div>{txt_queueType}</div>
-            <div>{txt_ElapsedTime}</div>
-            <div>{txt_isWin}</div>
-            <div>{txt_duraition}</div>
+            <div>
+                <div className='queueType'>{txt_queueType}</div>
+                <div className='ElapsedTime'>{txt_ElapsedTime}</div>
+            </div>
+            <div className='line' />
+            <div>
+                <div className='isWin'>{txt_isWin}</div>
+                <div className='duraition'>{txt_duraition}</div>
+            </div>
         </div>
     )
 }

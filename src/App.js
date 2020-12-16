@@ -104,7 +104,7 @@ function App() {
     const matchlist = await axios.get(lolAPI.matchlist + user.accountId, {
       params: {
         "beginIndex": 0,
-        "endIndex": 1,
+        "endIndex": 5,
         "api_key": apiKey.api_key
       }
     }).then((data) => { return data.data.matches })
