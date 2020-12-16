@@ -5,35 +5,81 @@ import axios from 'axios';
 import apiKey from './apiKey.json';
 import lolAPI from './lolAPI.json';
 import * as user_actions from './modules/user'
+import * as gameData_actions from './modules/gameData'
 import * as record_actions from './modules/record'
 import GameboxTemplate from './component/gameboxTemplate'
-import { version } from 'react-dom';
 
 function App() {
 
   const [SummonerName, setSummonerName] = useState('')
   const [Matches, setMatches] = useState([]);
 
-  let champion = ''
-  let item = ''
-  let spell = ''
+  const store = useSelector(state => state)
 
-  const cdn_url = 'http://ddragon.leagueoflegends.com/cdn/'
+  let gameData = []
 
   useEffect(() => {
     getAssetData()
   })
 
   const getAssetData = async () => {
+
     const version = await axios.get('https://ddragon.leagueoflegends.com/api/versions.json')
       .then((response) => { return response.data[0] })
 
-    axios.get(cdn_url + version + '/data/ko_KR' + '/champion.json')
-      .then((response) => { champion = response.data.data })
-    item = axios.get(cdn_url + version + '/data/ko_KR' + '/item.json')
-      .then((response) => { item = response.data.data })
-    spell = axios.get(cdn_url + version + '/data/ko_KR' + '/summoner.json')
-      .then((response) => { spell = response.data.data })
+    const champion = axios.get(lolAPI.cdnURL + version + '/data/ko_KR/champion.json')
+      .then((response) => {
+        const json = response.data.data
+        const new_json = {}
+
+        for (let key in json) {
+          new_json[json[key].key] = json[key]
+        }
+
+        return new_json
+      })
+
+    const spell = axios.get(lolAPI.cdnURL + version + '/data/ko_KR/summoner.json')
+      .then((response) => {
+        const json = response.data.data
+        const new_json = {}
+
+        for (let key in json) {
+          new_json[json[key].key] = json[key]
+        }
+
+        return new_json
+      })
+
+    const item = axios.get(lolAPI.cdnURL + version + '/data/ko_KR/item.json')
+      .then((response) => { return response.data.data })
+
+    const rune = axios.get(lolAPI.cdnURL + version + '/data/ko_KR/runesReforged.json')
+      .then((response) => {
+        const json = response.data
+        const new_json = {}
+
+        for (let big of json) {
+
+          new_json[big.id] = {
+            icon: big.icon,
+            id: big.id,
+            key: big.key,
+            name: big.name
+          }
+
+          for (let middle of big.slots) {
+            for (let small of middle.runes) {
+              new_json[small.id] = small
+            }
+          }
+        }
+        return new_json
+      })
+
+    gameData = await Promise.all([champion, item, spell, rune, version])
+      .then((result) => { return result })
+
   }
 
   const dispatch = useDispatch()
@@ -50,6 +96,9 @@ function App() {
 
     // 유저정보 스토어에 저장
     dispatch(user_actions.setUserInfo(user))
+    if (store.gameData === null)
+      dispatch(gameData_actions.inputGameData(gameData))
+
 
     // 가져온 유저정보로 매치리스트 가져오기
     const matchlist = await axios.get(lolAPI.matchlist + user.accountId, {
@@ -59,7 +108,6 @@ function App() {
         "api_key": apiKey.api_key
       }
     }).then((data) => { return data.data.matches })
-    console.log(matchlist)
 
     // 매치리스트에 있는 gameId로 각 게임기록 가져오기
     const matches = await Promise.all(
@@ -69,6 +117,7 @@ function App() {
       })
     )
 
+    dispatch(user_actions.setUserInfo(user))
     setMatches(matches)
   }
 
@@ -83,6 +132,7 @@ function App() {
 
         <button onClick={(e) => {
           e.preventDefault()
+          console.log(store)
           console.log(Matches)
         }}>확인</button>
 

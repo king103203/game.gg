@@ -1,5 +1,6 @@
 {
     "summoner": "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/",
     "matchlist": "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/",
-    "matches": "https://kr.api.riotgames.com/lol/match/v4/matches/"
+    "matches": "https://kr.api.riotgames.com/lol/match/v4/matches/",
+    "cdnURL": "http://ddragon.leagueoflegends.com/cdn/"
 }
