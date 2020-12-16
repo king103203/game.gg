@@ -1,17 +1,21 @@
 import React from 'react';
 import Gamebox from './gamebox';
+// import { useState } from 'react';
 
-function gameboxTemplate(props) {
+function GameboxTemplate({ matches }) {
 
-    const gameboxList = props.matchlist.map((match) => {
+    // const [Gamebox, setGamebox] = useState([]);
+
+    const gamebox = matches.map((match) => {
         return <Gamebox key={match.gameId} match={match} />
     })
 
+
     return (
-        <ul>
-            {gameboxList}
+        <ul className={'gameboxTemplate'}>
+            {gamebox}
         </ul>
     )
 }
 
-export default React.memo(gameboxTemplate);
+export default React.memo(GameboxTemplate);
