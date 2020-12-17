@@ -13,7 +13,7 @@ function App() {
 
   const [SummonerName, setSummonerName] = useState('')
   const [Matches, setMatches] = useState([]);
-
+  const [LoadingIndicator, setLoadingIndicator] = useState(false);
   const store = useSelector(state => state)
 
   let gameData = []
@@ -21,6 +21,12 @@ function App() {
   useEffect(() => {
     getAssetData()
   })
+
+  const dispatch = useDispatch()
+
+  const setSummonerNameState = (e) => {
+    setSummonerName(e.target.value)
+  }
 
   const getAssetData = async () => {
 
@@ -82,13 +88,9 @@ function App() {
 
   }
 
-  const dispatch = useDispatch()
-
-  const setSummonerNameState = (e) => {
-    setSummonerName(e.target.value)
-  }
-
   const getSummonerData = async () => {
+
+    setLoadingIndicator(true)
 
     // 유저정보 가져오기
     const user = await axios.get(lolAPI.summoner + SummonerName, { params: apiKey })
@@ -104,7 +106,7 @@ function App() {
     const matchlist = await axios.get(lolAPI.matchlist + user.accountId, {
       params: {
         "beginIndex": 0,
-        "endIndex": 5,
+        "endIndex": 1,
         "api_key": apiKey.api_key
       }
     }).then((data) => { return data.data.matches })
@@ -119,8 +121,8 @@ function App() {
 
     dispatch(user_actions.setUserInfo(user))
     setMatches(matches)
+    setLoadingIndicator(false)
   }
-
   return (
     <div className="App">
       <div>
@@ -134,9 +136,11 @@ function App() {
           e.preventDefault()
           console.log(store)
           console.log(Matches)
+          console.log(LoadingIndicator)
         }}>확인</button>
 
       </div>
+      {LoadingIndicator === true ? <span>로딩중</span> : null}
       <GameboxTemplate matches={Matches} />
     </div >
   );

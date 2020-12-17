@@ -1,28 +1,15 @@
 import React from 'react';
 import lolAPI from '../lolAPI.json'
 import { useSelector } from 'react-redux'
+import ItemTemplate from './itemTemplate';
+import ChampImg from './ChampImg';
+import SpellImg from './SpellImg';
 
 function PlayerChampion({ playerInfo, duraition, totalKill }) {
 
     const store = useSelector(state => state)
     const gameData = store.gameData
-    const version = gameData.version
-
     const Champion = gameData.champion[playerInfo.championId]
-    const champImgSrc = lolAPI.cdnURL + version + '/img/champion/' + Champion.id + '.png'
-
-    const spell_1 = gameData.spell[playerInfo.spell1Id]
-    const spell_2 = gameData.spell[playerInfo.spell2Id]
-
-    const rune_1 = gameData.rune[playerInfo.stats.perk0]
-    const rune_2 = gameData.rune[playerInfo.stats.perkSubStyle]
-
-    const spellImgSrc = (spell) => {
-        return lolAPI.cdnURL + version + '/img/spell/' + spell.id + '.png'
-    }
-    const runeImgSrc = (rune) => {
-        return lolAPI.cdnURL + 'img/' + rune.icon
-    }
 
     const kills = playerInfo.stats.kills
     const deaths = playerInfo.stats.deaths
@@ -50,21 +37,21 @@ function PlayerChampion({ playerInfo, duraition, totalKill }) {
             break
     }
 
+    const getItems = () => {
+        let items = []
+        for (let i = 0; i < 7; i++) {
+            items.push(playerInfo.stats['item' + i])
+        }
+        return items
+    }
+
     return (
         <>
             <div className='playerChampion'>
                 <div className="playerImg">
-                    <img className='ChampImg' src={champImgSrc} alt={Champion.name} />
-                    <div className='SpellImg'>
-                        <div className="spell">
-                            <img src={spellImgSrc(spell_1)} alt={spell_1.name} />
-                            <img src={spellImgSrc(spell_2)} alt={spell_2.name} />
-                        </div>
-                        <div className="rune">
-                            <img src={runeImgSrc(rune_1)} alt={rune_1.name} />
-                            <img src={runeImgSrc(rune_2)} alt={rune_2.name} />
-                        </div>
-                    </div>
+                    <ChampImg championKey={playerInfo.championId} />
+                    <SpellImg spells={[playerInfo.spell1Id, playerInfo.spell2Id]}
+                        runes={[playerInfo.stats.perk0, playerInfo.stats.perkSubStyle]} />
                 </div>
                 <div className='championName'>{Champion.name}</div>
             </div>
@@ -86,6 +73,16 @@ function PlayerChampion({ playerInfo, duraition, totalKill }) {
                 <div className='totalCS'>{totalCS} ({CSperMin}) CS</div>
                 <div className='involvedKill'>킬관여 {involvedkill}%</div>
             </div>
+            <div className='itemInfo'>
+                <div className="itembox">
+                    <ItemTemplate
+                        items={getItems()} />
+                </div>
+                <div className="wardCount">
+                    제어 와드 {playerInfo.stats.visionWardsBoughtInGame}
+                </div>
+            </div>
+
         </>
     )
 }

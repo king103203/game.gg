@@ -6,6 +6,7 @@
     --win-color : #A3CFEC;
     --win-color-dark : #1A78AE;
     --lose-color-dark : #C6443E;
+    --lose-color : #E2B6B3;
     --main-button-color : #4285F4;
     --main-subtitle-color : #0e67c1;
 }
@@ -51,15 +52,21 @@ input.nickname {
 
 .gameboxTemplate {
     padding: 0;
-    width: 600px;
+    width: 680px;
 }
 
 .gamebox {
-    width: 600px;
-    height: 96px;
+    width: 680px;
+    height: 110px;
     display: flex;
-    background-color: var(--win-color);
     margin-bottom: 8px;
+}
+
+.gamebox.Win {
+    background-color: var(--win-color);
+}
+.gamebox.Fail {
+    background-color: var(--lose-color);
 }
 
 .matchInfo {
@@ -75,9 +82,16 @@ input.nickname {
     font-weight: 500;
 }
 .matchInfo .isWin {
-    color: var(--win-color-dark);
     font-weight: 500;
 }
+
+.matchInfo .isWin.true {
+    color: var(--win-color-dark);
+}
+.matchInfo .isWin.false {
+    color: var(--lose-color-dark);
+}
+
 .ElapsedTime, .duraition {
     font-size: 11px;
 }
@@ -130,7 +144,7 @@ img.ChampImg {
 
 .rune img {
     border-radius: 11px;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .playerChampion .championName {
@@ -188,4 +202,78 @@ img.ChampImg {
 
 .involvedKill {
     color: var(--lose-color-dark);
+}
+
+.itemInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 20%;
+}
+
+.wardCount {
+    font-size: 11px;
+}
+
+.itemTemplate {
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+}
+
+.itemTemplate > div {
+    display: flex;
+}
+.DoubleLine {
+    flex-wrap: wrap;
+    width: 78px;
+}
+
+.item {
+    display: flex;
+}
+
+.itemBlank {
+    margin: 1px;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.3);;
+}
+
+.item img {
+    margin: 1px;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+}
+
+.userList {
+    display: flex;
+    align-items: center;
+    width: 30%;
+}
+
+.userbox {
+    display: flex;
+    cursor: pointer;
+}
+
+.userbox > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 14px;
+}
+
+.userboxChampImg img {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+}
+
+.userbox span {
+    margin: 2px;
+    font-size: 10px;
 }

@@ -52,7 +52,7 @@ function MatchInfo({ queueId, isWin, creation, duraition }) {
             </div>
             <div className='line' />
             <div>
-                <div className='isWin'>{txt_isWin}</div>
+                <div className={'isWin ' + isWin}>{txt_isWin}</div>
                 <div className='duraition'>{txt_duraition}</div>
             </div>
         </div>
