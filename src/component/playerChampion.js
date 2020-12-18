@@ -1,5 +1,4 @@
 import React from 'react';
-import lolAPI from '../lolAPI.json'
 import { useSelector } from 'react-redux'
 import ItemTemplate from './itemTemplate';
 import ChampImg from './ChampImg';
