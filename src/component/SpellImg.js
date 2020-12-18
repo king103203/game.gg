@@ -14,8 +14,6 @@ function SpellImg({ spells, runes }) {
     const rune_1 = gameData.rune[runes[0]]
     const rune_2 = gameData.rune[runes[1]]
 
-    console.log(runes[0])
-
     const spellImgSrc = (spell) => {
         return lolAPI.cdnURL + version + '/img/spell/' + spell.id + '.png'
     }

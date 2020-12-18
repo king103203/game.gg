@@ -2,5 +2,6 @@
     "summoner": "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/",
     "matchlist": "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/",
     "matches": "https://kr.api.riotgames.com/lol/match/v4/matches/",
+    "league": "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/",
     "cdnURL": "http://ddragon.leagueoflegends.com/cdn/"
 }

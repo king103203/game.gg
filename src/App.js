@@ -1,32 +1,16 @@
 import './App.css';
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux'
 import axios from 'axios';
-import apiKey from './apiKey.json';
 import lolAPI from './lolAPI.json';
-import * as user_actions from './modules/user'
 import * as gameData_actions from './modules/gameData'
-import * as record_actions from './modules/record'
-import GameboxTemplate from './component/gameboxTemplate'
+import Main from './main'
+import Result from './result'
+import { Route } from 'react-router-dom';
 
 function App() {
 
-  const [SummonerName, setSummonerName] = useState('')
-  const [Matches, setMatches] = useState([]);
-  const [LoadingIndicator, setLoadingIndicator] = useState(false);
-  const store = useSelector(state => state)
-
-  let gameData = []
-
-  useEffect(() => {
-    getAssetData()
-  })
-
   const dispatch = useDispatch()
-
-  const setSummonerNameState = (e) => {
-    setSummonerName(e.target.value)
-  }
 
   const getAssetData = async () => {
 
@@ -83,65 +67,20 @@ function App() {
         return new_json
       })
 
-    gameData = await Promise.all([champion, item, spell, rune, version])
+    const gameData = await Promise.all([champion, item, spell, rune, version])
       .then((result) => { return result })
-
+    console.log('gameData', gameData)
+    dispatch(gameData_actions.inputGameData(gameData))
   }
 
-  const getSummonerData = async () => {
+  useEffect(() => {
+    getAssetData()
+  }, [getAssetData])
 
-    setLoadingIndicator(true)
-
-    // 유저정보 가져오기
-    const user = await axios.get(lolAPI.summoner + SummonerName, { params: apiKey })
-      .then((data) => { return data.data })
-
-    // 유저정보 스토어에 저장
-    dispatch(user_actions.setUserInfo(user))
-    if (store.gameData === null)
-      dispatch(gameData_actions.inputGameData(gameData))
-
-
-    // 가져온 유저정보로 매치리스트 가져오기
-    const matchlist = await axios.get(lolAPI.matchlist + user.accountId, {
-      params: {
-        "beginIndex": 0,
-        "endIndex": 1,
-        "api_key": apiKey.api_key
-      }
-    }).then((data) => { return data.data.matches })
-
-    // 매치리스트에 있는 gameId로 각 게임기록 가져오기
-    const matches = await Promise.all(
-      matchlist.map(async (match) => {
-        const response = await axios.get(lolAPI.matches + match.gameId, { params: apiKey });
-        return response.data;
-      })
-    )
-
-    dispatch(user_actions.setUserInfo(user))
-    setMatches(matches)
-    setLoadingIndicator(false)
-  }
   return (
     <div className="App">
-      <div>
-        <input className={'nickname'} type="text" onChange={setSummonerNameState} />
-        <button className={'search'} onClick={(e) => {
-          e.preventDefault()
-          getSummonerData()
-        }}>받기</button>
-
-        <button onClick={(e) => {
-          e.preventDefault()
-          console.log(store)
-          console.log(Matches)
-          console.log(LoadingIndicator)
-        }}>확인</button>
-
-      </div>
-      {LoadingIndicator === true ? <span>로딩중</span> : null}
-      <GameboxTemplate matches={Matches} />
+      <Route exact path="/" component={Main} />
+      <Route path="/result/:username" component={Result} />
     </div >
   );
 }
