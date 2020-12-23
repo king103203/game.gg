@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux'
-import lolAPI from '../lolAPI.json'
+import lolAPI from '../../../lolAPI.json'
 
 function UserboxChampImg({ championId }) {
 

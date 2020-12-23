@@ -1,6 +1,6 @@
 import React from 'react';
 
-function MatchInfo({ queueId, isWin, creation, duraition }) {
+function GameInfo({ queueId, isWin, creation, duraition }) {
 
     // 승패 여부
     let txt_isWin = '패배'
@@ -48,7 +48,7 @@ function MatchInfo({ queueId, isWin, creation, duraition }) {
         <div className='matchInfo'>
             <div>
                 <div className='queueType'>{txt_queueType}</div>
-                <div className='ElapsedTime'>{txt_ElapsedTime}</div>
+                <div className='elapsedTime'>{txt_ElapsedTime}</div>
             </div>
             <div className='line' />
             <div>
@@ -59,4 +59,4 @@ function MatchInfo({ queueId, isWin, creation, duraition }) {
     )
 }
 
-export default MatchInfo;
+export default GameInfo;

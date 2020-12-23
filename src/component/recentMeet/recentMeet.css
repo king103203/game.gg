@@ -1,0 +1,53 @@
+.recentMeetTemplate {
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    margin: 5px;
+}
+
+.recentMeetTemplate > table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.recentMeetTemplate > table .meetTableSubtitle > th {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.recentMeetTemplate > table .meetTableSubtitle {
+    background-color: #f0f0f0;
+    height: 30px;
+}
+
+.recentMeetTemplate > table .meetTableSubWinRate {
+    width: 60px;
+}
+
+.recentMeetTemplate > table .meetTableSubth {
+    width: 40px;
+}
+
+.recentMeetTemplate > table .meetTableTitle {
+    font-size: 12px;
+    font-weight: 400;
+    height: 15px;
+}
+
+.recentMeetTemplate > table .meetTableSubName {
+    width: 100px;
+}
+
+.recentMeetTemplate > table .meetTableName {
+    cursor: pointer;
+}
+
+.recentMeetTemplate tbody td {
+    font-size: 12px;
+    font-weight: 400;
+    height: 24px;
+}
+
+.recentMeetTemplate tbody tr:nth-child(even) {
+    background-color: #f7f7f7;
+}

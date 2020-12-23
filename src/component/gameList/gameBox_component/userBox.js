@@ -1,7 +1,8 @@
 import React from 'react';
 import UserboxChampImg from './userboxChampImg';
+import { withRouter } from 'react-router-dom';
 
-function Userbox({ user }) {
+function UserBox({ user }) {
 
     let userName = user.summonerName
 
@@ -15,12 +16,16 @@ function Userbox({ user }) {
     if (getByte(userName) > 10) {
         userName = userName.substring(0, 4) + '...'
     }
+
     return (
-        <div className='userbox'>
+        <div className='userBox' onClick={(e) => {
+            e.preventDefault()
+            window.location.replace('/result/' + user.summonerName)
+        }}>
             <UserboxChampImg key={user.championId} championId={user.championId} />
-            <span>{userName}</span>
+            {userName}
         </div>
     )
 }
 
-export default Userbox;
+export default withRouter(UserBox);

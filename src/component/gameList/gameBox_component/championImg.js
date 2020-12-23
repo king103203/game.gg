@@ -1,8 +1,8 @@
 import React from 'react';
-import lolAPI from '../lolAPI.json'
+import lolAPI from '../../../lolAPI.json'
 import { useSelector } from 'react-redux'
 
-function ChampImg({ championKey }) {
+function ChampionImg({ championKey }) {
 
     const store = useSelector(state => state)
     const gameData = store.gameData
@@ -15,8 +15,8 @@ function ChampImg({ championKey }) {
 
 
     return (
-        <img className='ChampImg' src={champImgSrc} alt={championName} />
+        <img className='championImg' src={champImgSrc} alt={championName} />
     )
 }
 
-export default ChampImg;
+export default ChampionImg;

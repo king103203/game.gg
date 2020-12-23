@@ -1,18 +1,19 @@
 import React from 'react';
 
-function Rankbox({ type, league }) {
+function RankBox({ type, league }) {
 
     if (league !== null) {
         const winRate = Math.round(league.wins / (league.wins + league.losses) * 100)
-        const LpGraphRate = parseInt(league.leaguePoints * 0.8)
+        let LpGraphRate = parseInt(league.leaguePoints * 0.8)
+        if (LpGraphRate > 80) LpGraphRate = 80
         return (
-            <div className='rankbox'>
-                <div className="tier">
+            <div className='rankBox'>
+                <div className="tierIcon">
                     <img className='emblem' src={window.location.origin + '/Emblem_img/Emblem_' + league.tier + '.png'} alt={league.tier} />
                 </div>
                 <div className="tierInfo">
                     <div className="queueType">{type}</div>
-                    <div className="tierRank">{league.tier + ' ' + league.rank}</div>
+                    <div className="tierRankText">{league.tier + ' ' + league.rank}</div>
                     <div className="winRate">
                         <div>{league.wins + '승 ' + league.losses + '패 '}</div>
                         <div>{'승률 ' + winRate + '%'}</div>
@@ -27,16 +28,16 @@ function Rankbox({ type, league }) {
     }
     else if (league === null)
         return (
-            <div className='rankbox'>
-                <div className="tier">
+            <div className='rankBox'>
+                <div className="tierIcon">
                     <img className='emblem' src={window.location.origin + '/Emblem_img/default.png'} alt='default' />
                 </div>
                 <div className="tierInfo">
                     <div className="queueType">{type}</div>
-                    <div className="tierRank">Unranked</div>
+                    <div className="tierRankText">Unranked</div>
                 </div>
             </div>
         )
 }
 
-export default Rankbox;
+export default RankBox;

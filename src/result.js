@@ -7,9 +7,13 @@ import lolAPI from './lolAPI.json';
 import * as user_actions from './modules/user'
 import * as gameData_actions from './modules/gameData'
 import * as record_actions from './modules/record'
-import GameboxTemplate from './component/gameboxTemplate'
-import UserInfo from './component/userInfo';
+import GameListTemplate from './component/gameList/gameListTemplate'
+import ProfileTemplate from './component/profile/profileTemplate';
 import Loading from './component/loading';
+
+import Chartbox from './component/chartbox';
+import RecentMeetTemplate from './component/recentMeet/recentMeetTemplate';
+
 function Result({ match }) {
 
     // 유저의 닉네임
@@ -26,6 +30,8 @@ function Result({ match }) {
     const [LoadingUserInfo, setLoadingUserInfo] = useState(true);
     const [LoadingGamebox, setLoadingGamebox] = useState(true);
     const [LoadingMoreGamebox, setLoadingMoreGamebox] = useState(false);
+
+    const [Meet, setMeet] = useState({});
 
     const dispatch = useDispatch()
     const store = useSelector(state => state)
@@ -45,12 +51,13 @@ function Result({ match }) {
             .then((data) => { return data.data })
 
         setUserData(user)
+        dispatch(user_actions.setUserInfo(user))
         setLeague(league)
 
         setLoadingUserInfo(false)
 
         //한번에 불러올 게임의 수
-        const endIndex = 10
+        const endIndex = 2
 
         // 가져온 유저정보로 매치리스트 가져오기
         const matchlist = await axios.get(lolAPI.matchlist + user.accountId, {
@@ -72,8 +79,49 @@ function Result({ match }) {
         setMatches(matches)
         setLoadingGamebox(false)
 
-        dispatch(user_actions.setUserInfo(user))
-        // setMyInfo(<UserInfo user={user} league={league} />)
+        let meet = {}
+        matches.forEach((match) => {
+            match.participantIdentities.forEach((participant) => {
+                const summonerName = participant.player.summonerName
+
+                let playerIndex = 0
+                for (let i = 0; i < 10; i++) {
+                    if (summonerName === store.user.name) {
+                        playerIndex = i
+                        break
+                    }
+                }
+                if (summonerName === store.user.name) {
+                    return false
+                }
+                // 현재 플레이어 팀
+                let playerTeam = 0
+                if (playerIndex > 5) playerTeam = 1
+
+                // 팀의 승패 확인
+                let isWin = false
+                if (match.teams[playerTeam].win === 'Win') isWin = true
+                let win = 0
+                let lose = 0
+                if (isWin) win += 1
+                else lose += 1
+
+                if (meet[summonerName] === undefined) {
+                    meet[summonerName] = {
+                        name: summonerName,
+                        count: 1,
+                        win: win,
+                        lose: lose
+                    }
+                } else {
+                    meet[summonerName].count += 1
+                    meet[summonerName].win += win
+                    meet[summonerName].lose += lose
+                }
+            })
+        })
+
+        setMeet(meet)
     }
 
     const getMoreMatch = async (count) => {
@@ -103,21 +151,21 @@ function Result({ match }) {
     }
 
     return (
-        <div className='userBoard'>
-            {LoadingUserInfo ? <Loading /> : <UserInfo user={UserData} league={League} />}
-            {LoadingGamebox ? <Loading /> : <GameboxTemplate matches={Matches} />}
-            {LoadingMoreGamebox ? <Loading /> : null}
-            <div className="findMore" onClick={(e) => {
-                e.preventDefault()
-                getMoreMatch(1)
-            }}>
-                <span>더 보기</span>
+        <div className='board'>
+            <div className="board_Side">
+                <RecentMeetTemplate meet={Meet} />
+                {LoadingGamebox ? <Loading /> : <Chartbox matches={Matches} />}
             </div>
-            <button className={'search'} onClick={(e) => {
-                e.preventDefault()
-                console.log(Matches)
-            }}>확인</button>
-            <div>
+            <div className='board_Main'>
+                {LoadingUserInfo ? <Loading /> : <ProfileTemplate user={UserData} league={League} />}
+                {LoadingGamebox ? <Loading /> : <GameListTemplate matches={Matches} />}
+                {LoadingMoreGamebox ? <Loading /> : null}
+                <div className="findMore" onClick={(e) => {
+                    e.preventDefault()
+                    // getMoreMatch(1)
+                }}>
+                    <span>더 보기</span>
+                </div>
             </div>
         </div>
     )

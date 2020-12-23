@@ -8,6 +8,10 @@ import { Provider } from 'react-redux';
 import rootReducer from './modules';
 import { BrowserRouter } from 'react-router-dom';
 
+import './component/recentMeet/recentMeet.css'
+import './component/profile/profile.css'
+import './component/gameList/gameList.css'
+
 const store = createStore(rootReducer);
 
 ReactDOM.render(

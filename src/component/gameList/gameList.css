@@ -1,0 +1,261 @@
+.gameListTemplate {
+    padding: 0;
+    width: 680px;
+}
+
+.gameBox {
+    width: 680px;
+    height: 110px;
+    display: flex;
+    margin-bottom: 8px;
+}
+ul,li {
+    margin:0; padding:0;
+}
+.gameBox.Win {
+    background-color: var(--win-color);
+}
+.gameBox.Fail {
+    background-color: var(--lose-color);
+}
+
+/*---- 게임 정보 ----*/
+.matchInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 10%;
+    font-size: 12px;
+}
+.matchInfo .queueType {
+    font-weight: 400;
+}
+.matchInfo .isWin {
+    font-weight: 400;
+}
+.matchInfo .isWin.true {
+    color: var(--win-color-dark);
+}
+.matchInfo .isWin.false {
+    color: var(--lose-color-dark);
+}
+.elapsedTime, .duraition {
+    font-size: 11px;
+}
+.matchInfo .line {
+    width: 20px;
+    height: 1px;
+    background-color: var(--font-color-lignt-black);
+}
+
+/*---- 플레이어 캐릭터 이미지 ----*/
+.playerInfo {
+    display: flex;
+    width: 20%;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+.playerInfo .playerImg {
+    display: flex;
+    width: 100%;
+    height: 60px;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.playerInfo .spellBox {
+    display: flex;
+    flex-wrap: nowrap;
+}
+.playerInfo .spellImg {
+    display: flex;
+    justify-content: center;
+}
+.playerInfo .championImg {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+}
+.playerInfo .spell, .playerInfo .rune {
+    display: flex;
+    flex-direction: column;
+}
+.playerInfo .spell img,.playerInfo .rune img {
+    margin: 1px;
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+}
+.playerInfo .rune img {
+    border-radius: 11px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.playerInfo .championName {
+    font-size: 12px;
+    height: 20px;
+}
+
+/*---- 플레이어 KDA ----*/
+.playerKDA {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 15%;
+    color: var(--font-color-lignt-black);
+    font-weight: 700;
+}
+.playerKDA > div {
+    margin: 2px;
+}
+.playerKDA .death {
+    color: var(--lose-color-dark);
+    font-weight: 700;
+}
+.playerKDA .KDA_rate {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--font-color-black);
+}
+.playerKDA .largestMultiKill {
+    display: flex;
+    font-size: 10px;
+    color: white;
+    align-items: center;
+    font-weight: 400;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: var(--lose-color-dark);
+}
+
+/*---- 플레이어 캐릭터 스텟 ----*/
+.playerStat {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 15%;
+}
+.playerStat > div {
+    font-size: 12px;
+    margin: 1px;
+}
+.involvedKill {
+    color: var(--lose-color-dark);
+}
+
+/*---- 플레이어 아이템 ----*/
+.playerItems {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 20%;
+}
+.playerItems .itemTemplate {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.playerItems .item_0_to_5.double {
+    display: flex;
+    flex-wrap: wrap;
+    width: 78px;
+}
+.playerItems .item_0_to_5.single {
+    display: flex;
+    flex-wrap: nowrap;
+}
+.playerItems .item {
+    display: flex;
+    justify-content: center;
+}
+.playerItems .item img {
+    margin: 1px;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+}
+.playerItems .itemBlank {
+    margin: 1px;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.3);;
+}
+.playerItems .wardCount {
+    font-size: 11px;
+}
+
+/*---- 유저 리스트 ----*/
+.userListTemplate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+}
+.userList {
+    width: 80px;
+}
+.userBox {
+    display: flex;
+    font-size: 10px;
+}
+.userboxChampImg img {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+}
+
+
+.findMore {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 28px;
+    background-color:silver;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    border-radius: 14px;
+    cursor: pointer;
+}
+
+
+
+.tooltipBox {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    width: auto;
+    height: auto;
+    max-width: 400px;
+    transform: translate(0, -105%);
+    border-radius: 10px;
+    color: white;
+    text-align: left;
+    font-size: 10px;
+}
+.tooltipBox > ul {
+    list-style: none;
+    margin-left: 0;
+    padding: 15px;
+    z-index: 3;
+}
+.tootipBoxSharp {
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    left: 50%;
+    border: 10px solid transparent;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid rgba(0, 0, 0, 0.8);
+    transform: translate(-50%, -1px);
+    z-index: 3;
+}
+.tooltipName {
+    color: #00eaff;
+    font-size: 12px;
+}

@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux'
-import MatchInfo from './matchInfo'
-import PlayerChampion from './playerChampion'
-import UserList from './userList';
+import GameInfo from './gameBox_component/gameInfo'
+import PlayerInfo from './gameBox_component/playerInfo'
+import UserListTemplate from './gameBox_component/userListTemplate';
 
-function Gamebox({ match }) {
+function GameBox({ match }) {
 
     const store = useSelector(state => state)
     const user = store.user
@@ -42,20 +42,20 @@ function Gamebox({ match }) {
     }
 
     return (
-        <div className={'gamebox ' + match.teams[playerTeam].win}>
-            <MatchInfo
+        <li className={'gameBox ' + match.teams[playerTeam].win}>
+            <GameInfo
                 queueId={match.queueId}
                 isWin={isWin}
                 creation={match.gameCreation}
                 duraition={match.gameDuration} />
-            <PlayerChampion
+            <PlayerInfo
                 playerInfo={match.participants[playerIndex]}
                 duraition={match.gameDuration}
                 totalKill={totalKill}
             />
-            <UserList userlist={userlist} />
-        </div>
+            <UserListTemplate userList={userlist} />
+        </li>
     )
 }
 
-export default Gamebox;
+export default GameBox;

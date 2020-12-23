@@ -1,0 +1,126 @@
+/*---- 유저 프로필 ----*/
+.profileTemplate {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 680px;
+    height: 140px;
+}
+
+.profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/*---- 프로필 아이콘 ----*/
+.profile .profileIcon {
+    display: flex;
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+.profile .icon {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    left: 10px;
+    top: 10px;
+    z-index: 0;
+}
+
+.profile .iconBorder {
+    width: 120px;
+    height: 120px; 
+    z-index: 1;
+}
+/*---- 유저 정보 ----*/
+.profile .userInfo {
+    text-align: left;
+}
+
+.profile .userInfo .nickname {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.profile .userInfo .level {
+    font-size: 15px;
+}
+
+.profile .userInfo .revisionDate {
+    font-size: 12px;
+    color: silver;
+}
+/*---- 유저 랭크 ----*/
+.rankBoxTemplate {
+    display: flex;
+    flex-direction: row;
+}
+
+.rankBox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 200px;
+    height: 120px;
+    margin-right: 10px;
+}
+/*---- 티어 아이콘 ----*/
+.rankBox .tierIcon {
+    width: 100px;
+    height: 100px;
+    overflow: visible;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 50px;
+    margin-right: 10px;
+}
+
+.rankBox .emblem {
+    display: flex;
+    width: 100px;
+    height: 100px;
+}
+
+/*---- 티어 정보 ----*/
+.rankBox .tierInfo {
+    text-align: left;
+}
+
+.rankBox .tierInfo .queueType {
+    font-size: 11px;
+    color: var(--font-color-lignt-black);
+}
+
+.rankBox .tierInfo .tierRankText {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--win-color-dark);
+}
+
+.rankBox .tierInfo .winRate {
+    font-size: 10px;
+}
+
+.rankBox .tierInfo .LpRate {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    border: 1px solid silver;
+    width: 80px;
+    height: 10px;
+    line-height: 10px;
+    font-size: 10px;
+    margin-top: 2px;
+    border-radius: 3px;
+}
+.rankBox .tierInfo .LpRate > span {
+    z-index: 1;
+}
+.rankBox .tierInfo .LP {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    background-color: skyblue;
+    z-index: 0;
+}

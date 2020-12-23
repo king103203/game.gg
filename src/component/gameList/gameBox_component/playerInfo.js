@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux'
 import ItemTemplate from './itemTemplate';
-import ChampImg from './ChampImg';
-import SpellImg from './SpellImg';
+import ChampionImg from './championImg';
+import SpellBox from './spellBox';
 
-function PlayerChampion({ playerInfo, duraition, totalKill }) {
+function PlayerInfo({ playerInfo, duraition, totalKill }) {
 
     const store = useSelector(state => state)
     const gameData = store.gameData
@@ -13,11 +13,16 @@ function PlayerChampion({ playerInfo, duraition, totalKill }) {
     const kills = playerInfo.stats.kills
     const deaths = playerInfo.stats.deaths
     const assists = playerInfo.stats.assists
-    const KDA_rate = Math.round((kills + assists) / deaths * 100) / 100
+
+    let KDA_rate = ((kills + assists) / deaths).toFixed(2)
+    if (KDA_rate === Infinity) KDA_rate = 'Perfect'
+    else if (isNaN(KDA_rate) || KDA_rate === 0) KDA_rate = '0.00'
 
     const totalCS = playerInfo.stats.neutralMinionsKilled + playerInfo.stats.totalMinionsKilled
     const CSperMin = Math.round(totalCS / parseInt(duraition / 60) * 10) / 10
-    const involvedkill = Math.round((kills + assists) / totalKill * 100)
+    let involvedkill = Math.round((kills + assists) / totalKill * 100)
+    if (isNaN(involvedkill)) involvedkill = 0
+
     let txt_largestMultiKill = ''
     switch (playerInfo.stats.largestMultiKill) {
         case 2:
@@ -46,10 +51,10 @@ function PlayerChampion({ playerInfo, duraition, totalKill }) {
 
     return (
         <>
-            <div className='playerChampion'>
+            <div className='playerInfo'>
                 <div className="playerImg">
-                    <ChampImg championKey={playerInfo.championId} />
-                    <SpellImg spells={[playerInfo.spell1Id, playerInfo.spell2Id]}
+                    <ChampionImg championKey={playerInfo.championId} />
+                    <SpellBox spells={[playerInfo.spell1Id, playerInfo.spell2Id]}
                         runes={[playerInfo.stats.perk0, playerInfo.stats.perkSubStyle]} />
                 </div>
                 <div className='championName'>{Champion.name}</div>
@@ -72,11 +77,8 @@ function PlayerChampion({ playerInfo, duraition, totalKill }) {
                 <div className='totalCS'>{totalCS} ({CSperMin}) CS</div>
                 <div className='involvedKill'>킬관여 {involvedkill}%</div>
             </div>
-            <div className='itemInfo'>
-                <div className="itembox">
-                    <ItemTemplate
-                        items={getItems()} />
-                </div>
+            <div className='playerItems'>
+                <ItemTemplate type='double' items={getItems()} />
                 <div className="wardCount">
                     제어 와드 {playerInfo.stats.visionWardsBoughtInGame}
                 </div>
@@ -86,4 +88,4 @@ function PlayerChampion({ playerInfo, duraition, totalKill }) {
     )
 }
 
-export default PlayerChampion;
+export default PlayerInfo;
